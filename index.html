@@ -10,32 +10,28 @@
 		<link rel="stylesheet" href="lib/leaflet.markercluster/MarkerCluster.css">
 		<link rel="stylesheet" href="lib/leaflet.markercluster/MarkerCluster.Default.css">
 		<link rel="stylesheet" href="css/style.css">
-		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"> -->
-		<!-- <link rel="stylesheet" href="css/leaflet-search.mobile.css"> -->
-		<!-- <link rel="stylesheet" href="css/leaflet-search.css"> -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 		<!--[if IE<9]>
 			<link rel="stylesheet" href="css/style.ie.css">
 		<![endif]-->
 	</head>
 
 	<body>
-		<!-- Title of map -->
-		<h1>World Population Projections 2020 - 2060</h1>
-		<!-- Specify map dimensions -->
-		<div id="mapid" style="width: 800px; height: 440px; border: 1px solida #AAA;"></div>
-
-
+		<h2>World Population Projections 2020-2060</h2>
+		<h3>Source: <a href="https://www.census.gov/data-tools/demo/idb/#/country">U.S. Census Bureau | International Programs | International Data Base</a></h3>
+		<div id ='mapid'></div>
+		<div id="panel"></div>
+		
+		
 
 		<!--library scripts-->
 		<script type="text/javascript" src="lib/jquery-3.6.0.js"></script>
 		<script type="text/javascript" src="lib/leaflet-1.4.0/leaflet-src.js"></script>
 		<script type="text/javascript" src="lib/leaflet.markercluster/leaflet.markercluster-src.js"></script>
+		<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+		<!-- <script src="/js/leaflet-0.7.2/leaflet.ajax.min.js"></script> -->
 
 		<!--main scripts-->
 		<script type="text/javascript" src="js/main.js"></script>
-		<!-- <script type="text/javascript" src="js/index.js"></script> -->
-		<!-- <script type="text/javascript" src="js/controls/search.js"></script> -->
-		<!-- <script type="text/javascript" src="js/leaflet-search.js"></script> -->
-		<!-- <script type="text/javascript" src="js/leaflet-search-geocoder.js"></script> -->
 	</body>
 </html>

@@ -1,27 +1,42 @@
-/* Leaflet Proportional Symbols Example */
-
-//GOAL: Proportional symbols representing attribute values of mapped features
-
-//Step 1: Create the Leaflet map
+//create map portion
 function createMap(){
-    //create the map
-    var map = L.map('mapid', {
-        center: [9.317758864832186, 2.65041787039295],
+    //create tmap
+    
+	var map = L.map('mapid', {
+        center: [17.317758864832186, 5.65041787039295],
         zoom: 2
     });
-
-    //add Esri WorldGrayCanvas base tilelayer
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+	
+	//add controls layers
+	//ability to toggle on/off Esri and Stamen base layers (nice options, both are low-profile to preserve view of geoJSON)
+	var controlLayers = L.control.layers( null, null, {
+		position: "topright",
+		collapsed: false
+		}).addTo(map);
+	
+	//variables for both Esri and Stamen's tile layer sources
+	var ESRI = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
     }).addTo(map);
+	controlLayers.addBaseLayer(ESRI, 'Esri World Gray Canvas');	
 	
+	var Stamen_TonerLite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		subdomains: 'abcd',
+		minZoom: 0,
+		maxZoom: 20,
+		ext: 'png'
+	});
+	controlLayers.addBaseLayer(Stamen_TonerLite, 'Stamen TonerLite');
+		
+	//adds the fifth operator, using the Leaflet Control Geocoder using OSM/Nominatim.
+	L.Control.geocoder().addTo(map);
+
     //call getData function
     getData(map);
 };
 
-
-
-//calculate the radius of each proportional symbol
+//calculates the radius of each proportional symbol based on attribute value
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
     var scaleFactor = .00000160;
@@ -33,9 +48,7 @@ function calcPropRadius(attValue) {
     return radius;
 };
 
-
-
-//Example 1.2 line 1...Popup constructor function
+//popup constructor function
 function Popup(properties, attribute, layer, radius){
     this.properties = properties;
     this.attribute = attribute;
@@ -51,7 +64,7 @@ function Popup(properties, attribute, layer, radius){
     };
 };
 
-//function to convert markers to circle markers
+//converts default markers to circle markers
 function pointToLayer(feature, latlng, attributes){
     //Assign the current attribute based on the first index of the attributes array
     var attribute = attributes[0];
@@ -116,7 +129,7 @@ function processData(data){
     return attributes;
 };
 
-//Add circle markers for point features to the map
+//add circle markers for point features to the map
 function createPropSymbols(data, map, attributes){
     //create a Leaflet GeoJSON layer and add it to the map
     L.geoJson(data, {
@@ -126,7 +139,7 @@ function createPropSymbols(data, map, attributes){
     }).addTo(map);
 };
 
-//Step 10: Resize proportional symbols according to new attribute values
+//resize proportional symbols based upon "new" attribute values
 function updatePropSymbols(map, attribute){
     map.eachLayer(function(layer){
         if (layer.feature && layer.feature.properties[attribute]){
@@ -210,7 +223,7 @@ function createLegend(map, attributes){
     updateLegend(map, attributes[0]);
 };
 
-//Calculate the max, mean, and min values for a given attribute
+//calculate the max, mean, halfmean, quartermean and min values for a given attribute. Fractional means will make for consistently concentric circles while using slider
 function getCircleValues(map, attribute){
     //start with min at highest possible and max at lowest possible number
     	
@@ -253,7 +266,7 @@ function getCircleValues(map, attribute){
     };
 };
 
-//Example 3.7 line 1...Update the legend with new attribute
+//update the legend with new attribute
 function updateLegend(map, attribute){
     //create content for legend
     var year = attribute.split("_")[1];
@@ -280,7 +293,7 @@ function updateLegend(map, attribute){
     };
 };
 
-//Step 1: Create new Leaflet control
+//create new Leaflet control
 function createSequenceControls(map, attributes){
     var SequenceControl = L.Control.extend({
         options: {
@@ -354,7 +367,7 @@ function createSequenceControls(map, attributes){
 	});
 };
 
-//Import GeoJSON data
+//import GeoJSON from using ajax
 function getData(map){
     //load the data
     $.ajax("data/allcountries_2020_2060.geojson", {
@@ -366,13 +379,9 @@ function getData(map){
             createPropSymbols(response, map, attributes);
             createSequenceControls(map, attributes);
             createLegend(map, attributes);
+
         }
     });
 };
 
-
-
 $(document).ready(createMap);
-
-
-

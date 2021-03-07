@@ -1,6 +1,6 @@
 #mapid {
 	height: 400px;
-	width: 100%;
+	width: 800px;
 	display: inline-block;
 }
 
@@ -9,10 +9,10 @@
 }
 
 .sequence-control-container, .legend-control-container {
-	background-color: rgba(255,255,255,0.8);
-	padding: 10px;
+	background-color: rgba(0, 148, 151, 0.06);
+	padding: 2px;
 	text-align: center;
-	border: solid gray 1px;
+	border: solid gray 2px;
 }
 
 .sequence-control-container {
@@ -34,7 +34,10 @@
 }
 
 .legend-control-container {
-	width: 200px;	
+	background-color: rgba(255, 255, 255, 0.8);
+	width: 160px;
+	height: 100px;
+	border: solid gray 2px;
 }
 
 #temporal-legend {
